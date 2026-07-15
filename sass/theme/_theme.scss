@@ -597,14 +597,6 @@ ul.fichas-tecnicas {
 			border-bottom: 0;
 		}
 
-		&::before {
-			content: "\1F5CE";
-			color: $primary;
-			line-height: 1;
-			font-size: $font-size-base * 1.1;
-			flex: 0 0 auto;
-		}
-
 		a {
 			flex: 1 1 auto;
 			min-width: 0;

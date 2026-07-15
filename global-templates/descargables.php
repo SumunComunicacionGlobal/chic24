@@ -16,6 +16,7 @@ if ( function_exists( 'have_rows' ) && have_rows( 'fichas_tecnicas' ) ) :
 			$pdf_url  = $pdf_id ? wp_get_attachment_url( $pdf_id ) : '';
 			?>
 			<li class="fichas-tecnicas__item">
+				<i class="fa-solid fa-file-arrow-down"></i>
 				<?php if ( $pdf_url ) : ?>
 					<a href="<?php echo esc_url( $pdf_url ); ?>" target="_blank" rel="noopener">
 						<?php echo esc_html( $titulo ); ?>
@@ -25,7 +26,7 @@ if ( function_exists( 'have_rows' ) && have_rows( 'fichas_tecnicas' ) ) :
 				<?php endif; ?>
 
 				<?php if ( $variante ) : ?>
-					<span class="badge fichas-tecnicas__variante"> (<?php echo esc_html( $variante ); ?>)</span>
+					<span class="badge badge-light fichas-tecnicas__variante"> (<?php echo esc_html( $variante ); ?>)</span>
 				<?php endif; ?>
 			</li>
 			<?php
