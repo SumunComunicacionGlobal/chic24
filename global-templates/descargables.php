@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( function_exists( 'have_rows' ) && have_rows( 'fichas_tecnicas' ) ) :
 	?>
+	<h2 class="h5 mb-3"><?php esc_html_e( 'Fichas técnicas', 'sumun' ); ?></h2>
 	<ul class="fichas-tecnicas">
 		<?php
 		while ( have_rows( 'fichas_tecnicas' ) ) :
