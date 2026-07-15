@@ -1,0 +1,198 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+/**
+ * Envía un lead a Zoho Campaigns cuando se envía el formulario con post_id 57056 o sus traducciones (WPML), usando OAuth 2.0 (auth code).
+ */
+add_action('wpcf7_mail_sent', 'smn_send_lead_to_zoho_campaigns');
+function smn_send_lead_to_zoho_campaigns($contact_form) {
+
+    $submission = WPCF7_Submission::get_instance();
+    if (!$submission) {
+        return;
+    }
+    $data = $submission->get_posted_data();
+	$current_lang = defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : 'en';
+
+	$target_form_id = 26169; // Formulario descarga catálogo
+	$target_form_id_contacto = 521; // Formulario contacto
+
+	$list_key = get_field('zoho_campaigns_list_key', 'option');
+	$source_name = 'Formulario descarga catálogo';
+	$acceptance_field_name = 'aceptacion-comunicaciones-comerciales';
+
+    
+	// Obtener todas las traducciones del formulario con WPML
+	if (function_exists('wpml_object_id_filter')) {
+		$form_ids = array();
+		$languages = apply_filters('wpml_active_languages', NULL, array());
+		foreach ($languages as $lang) {
+			$form_ids[] = apply_filters('wpml_object_id', $target_form_id, 'wpcf7_contact_form', false, $lang['language_code']);
+		}
+	} else {
+		$form_ids = array($target_form_id);
+	}
+
+	$current_form_id = $contact_form->id();
+
+	$is_target_form = in_array($current_form_id, $form_ids);
+
+	if ( !$is_target_form) {
+		$list_key = get_field('zoho_campaigns_list_key_query_form', 'option');
+		$source_name = 'Formulario de contacto';
+	}
+
+	// Solo enviar si tiene optin y está marcado
+	if (!empty($data[$acceptance_field_name])) {
+		// error_log('Zoho: El formulario no es el objetivo, pero tiene opt-in marcado.');
+	} else {
+		// error_log('Zoho: El formulario no tiene el campo de opt-in marcado.');
+		return;
+	}
+
+	$optin_value = isset($data[$acceptance_field_name]) ? $data[$acceptance_field_name] : '';
+
+	// error_log('Zoho: Enviando lead desde el formulario: ' . $source_name . ', opt-in: ' . ($optin_value ? 'Sí' : 'No'));
+
+	if (!empty($optin_value)) {
+		$optin_value = 'Sí';
+	} else {
+		$optin_value = 'No';
+		return;
+	}
+
+	$first_name = isset($data['your-name']) ? $data['your-name'] : '';
+	$email = isset($data['your-email']) ? $data['your-email'] : '';
+
+    // Construir el array contactinfo
+	// https://www.zoho.com/campaigns/help/developers/get-contact-fields.html
+	// Contact Email, First Name, Last Name, Phone, Mobile, Secondary Email, Company Name, Job Title, Address, City, State, Country, Zip Code, Website Note, Twitter Handle, Facebook Handle, LinkedIn Handle
+    $contact_info = array(
+        'First Name' => $first_name,
+        'Contact Email' => $email,
+    );
+
+
+	if (isset($data['your-country']) && !empty($data['your-country'])) {
+		$contact_info['Country'] = $data['your-country'];
+	}
+	if (isset($data['your-last-name']) && !empty($data['your-last-name'])) {
+		$contact_info['Last Name'] = $data['your-last-name'];
+	}
+	if ( isset($data['your-phone']) && !empty($data['your-phone']) ) {
+		$contact_info['Phone'] = $data['your-phone'];
+		$contact_info['Mobile'] = $data['your-mobile'];
+	}
+	if (isset($data['your-profile']) && !empty($data['your-profile'])) {
+		$job_title = $data['your-profile'];
+		$job_title = implode(', ', $job_title);
+		$contact_info['Job Title'] = $job_title;
+	}
+	if (isset($data['your-company']) && !empty($data['your-company'])) {
+		$contact_info['Company Name'] = $data['your-company'];
+	}
+	if (isset($data['your-city']) && !empty($data['your-city'])) {
+		$contact_info['City'] = $data['your-city'];
+	}
+	if (isset($data['your-state']) && !empty($data['your-state'])) {
+		$contact_info['State'] = $data['your-state'];
+	}	
+	if (isset($data['your-query-type']) && !empty($data['your-query-type'])) {
+		$contact_info['Tipo de Consulta'] = is_array($data['your-query-type']) ? implode(', ', $data['your-query-type']) : $data['your-query-type'];
+	}
+	if (isset($data['your-message']) && !empty($data['your-message'])) {
+		$contact_info['Note'] = $data['your-message'];
+	}
+
+	$contact_info['Idioma'] = $current_lang;
+	$contact_info['Consentimiento Suscripcion'] = $optin_value;
+	$contact_info['Fecha Ultimo Consentimiento'] = current_time('Y-m-d H:i:s');
+
+
+	$api_url = 'https://campaigns.zoho.eu/api/v1.1/json/listsubscribe';
+
+	// OAuth 2.0: obtener access token usando auth code (debes guardar el refresh_token, client_id y client_secret en las opciones del tema)
+	$client_id = get_field('zoho_campaigns_client_id', 'option');
+	$client_secret = get_field('zoho_campaigns_client_secret', 'option');
+	$refresh_token = get_field('zoho_campaigns_refresh_token', 'option');
+	$access_token = smn_zoho_get_access_token($client_id, $client_secret, $refresh_token);
+
+    // error_log('Zoho client id: ' . $client_id);
+    // error_log('Zoho client secret: ' . $client_secret);
+    // error_log('Zoho refresh token: ' . $refresh_token);
+    // error_log('Zoho access token: ' . $access_token);
+    // error_log('Zoho list key: ' . $list_key);
+
+	if (!$access_token) {
+		// error_log('Zoho: No se pudo obtener access token');
+		return;
+	}
+
+	$payload = array(
+		'listkey' => $list_key,
+		'contactinfo' => json_encode($contact_info),
+		'resfmt' => 'JSON',
+        'source' => $source_name
+	);
+
+	$args = array(
+		'body' => $payload,
+		'headers' => array(
+			'Content-Type' => 'application/x-www-form-urlencoded',
+			'Authorization' => 'Zoho-oauthtoken ' . $access_token
+		),
+		'timeout' => 15
+	);
+
+	$response = wp_remote_post($api_url, $args);
+	// error_log('Zoho response: ' . print_r($response, true));
+	$body = wp_remote_retrieve_body($response);
+	// error_log('Zoho body: ' . $body);
+}
+
+/**
+ * Obtiene un access token de Zoho usando refresh token. Cachea el token en transients.
+ */
+function smn_zoho_get_access_token($client_id, $client_secret, $refresh_token) {
+	$transient_key = 'zoho_campaigns_access_token';
+	$token_data = get_transient($transient_key);
+	if ($token_data && is_array($token_data)) {
+		// Comprobar si el token sigue siendo válido
+		if (isset($token_data['access_token'], $token_data['expires_at']) && $token_data['expires_at'] > time() + 60) { // margen de 1 min
+		// error_log('Zoho: Usando access token cacheado ' . $token_data['access_token']);	
+		return $token_data['access_token'];
+		}
+	}
+	$token_url = 'https://accounts.zoho.eu/oauth/v2/token';
+	$params = array(
+		'refresh_token' => $refresh_token,
+		'client_id' => $client_id,
+		'client_secret' => $client_secret,
+		'grant_type' => 'refresh_token',
+	);
+	$response = wp_remote_post($token_url, array(
+		'body' => $params,
+		'timeout' => 15,
+	));
+	if (is_wp_error($response)) {
+		error_log('Zoho token error: ' . $response->get_error_message());
+		return false;
+	}
+	$body = json_decode(wp_remote_retrieve_body($response), true);
+	if (isset($body['access_token'])) {
+		// Calcular expiración real
+		$expires_in = isset($body['expires_in']) ? intval($body['expires_in']) : 3600; // por defecto 1h
+		$expires_at = time() + $expires_in;
+		$token_data = array(
+			'access_token' => $body['access_token'],
+			'expires_at' => $expires_at
+		);
+		set_transient($transient_key, $token_data, $expires_in - 300); // margen de 5 min
+		// error_log('Zoho: Nuevo access token obtenido ' . $body['access_token']);
+		return $body['access_token'];
+	}
+	// error_log('Zoho token response: ' . print_r($body, true));
+	return false;
+}

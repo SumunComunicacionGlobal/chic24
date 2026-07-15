@@ -1,0 +1,25 @@
+<div class="wp-block-cover is-light">
+
+    <span aria-hidden="true" class="has-black-background-color wp-block-cover__gradient-background has-background-dim has-background-dim-70"></span>
+    <?php echo wp_get_attachment_image( $img_fondo_id, 'large', false, array( 'class' => 'wp-block-cover__image-background', 'data-object-fit' => 'cover' ) );  ?>
+
+    <div class="wp-block-cover__inner-container">
+
+        <main class="site-main my-5" id="main">
+
+            <div class="text-white"><?php chic_breadcrumb(); ?></div>
+
+            <header class="page-header mb-0 row">
+                <?php
+                the_archive_title( '<h1 class="page-title col-md-5 col-lg-4">', '</h1>' );
+                the_archive_description( '<div class="taxonomy-description col-md-7 col-lg-8">', '</div>' );
+                ?>
+            </header><!-- .page-header -->
+
+            <?php smn_subcategories(); ?>
+
+        </main>
+
+    </div>
+
+</div>
