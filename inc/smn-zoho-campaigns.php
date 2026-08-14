@@ -22,6 +22,7 @@ function smn_send_lead_to_zoho_campaigns($contact_form) {
 	$list_key = get_field('zoho_campaigns_list_key', 'option');
 	$source_name = 'Formulario descarga catálogo';
 	$acceptance_field_name = 'aceptacion-comunicaciones-comerciales';
+	$workspace_id = get_field('zoho_campaigns_workspace_id', 'option');
 
     
 	// Obtener todas las traducciones del formulario con WPML
@@ -137,12 +138,18 @@ function smn_send_lead_to_zoho_campaigns($contact_form) {
         'source' => $source_name
 	);
 
+	$headers = array(
+		'Content-Type' => 'application/x-www-form-urlencoded',
+		'Authorization' => 'Zoho-oauthtoken ' . $access_token
+	);
+
+	if ($workspace_id) {
+		$headers['X-CAMPAIGNS-WORKSPACE'] = $workspace_id;
+	}
+
 	$args = array(
 		'body' => $payload,
-		'headers' => array(
-			'Content-Type' => 'application/x-www-form-urlencoded',
-			'Authorization' => 'Zoho-oauthtoken ' . $access_token
-		),
+		'headers' => $headers,
 		'timeout' => 15
 	);
 
