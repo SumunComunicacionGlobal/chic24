@@ -15,7 +15,7 @@ $navbar_class = 'navbar-light bg-secondary';
 if ( is_singular() ) {
 	$cabecera_transparente = get_field('cabecera_transparente');
 	if ($cabecera_transparente) {
-		$navbar_class = '';
+		$navbar_class = 'navbar-light transparent-navbar';
 	}
 }
 ?>

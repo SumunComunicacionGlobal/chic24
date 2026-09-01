@@ -30,6 +30,13 @@ if ( ! function_exists( 'understrap_body_classes' ) ) {
 			$classes[] = 'hfeed';
 		}
 
+		if ( is_singular() ) {
+			$cabecera_transparente = get_field('cabecera_transparente');
+			if ($cabecera_transparente) {
+				$classes[] = 'cabecera-transparente';
+			}
+		}
+
 		return $classes;
 	}
 }
