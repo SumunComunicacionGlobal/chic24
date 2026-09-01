@@ -188,7 +188,8 @@
 }
 
 @media (max-width: 750px) {
-	#hero {
+	#hero,
+	.hero {
 		flex-direction: column-reverse;
 		padding-left: 0;
 		padding-right: 0;
