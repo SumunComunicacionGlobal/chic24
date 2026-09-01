@@ -187,6 +187,20 @@
 
 }
 
+@media (max-width: 750px) {
+	#hero {
+		flex-direction: column-reverse;
+		padding-left: 0;
+		padding-right: 0;
+		padding-bottom: 0;
+
+		.wp-block-cover__image-background {
+			position: relative;
+			aspect-ratio: 1/1;
+			object-position: 82% 50%;
+		}
+	}
+}	
 // @include media-breakpoint-up(md) {
 // 	#wrapper-navbar {
 
