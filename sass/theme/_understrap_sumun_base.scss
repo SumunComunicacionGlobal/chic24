@@ -164,12 +164,11 @@ label {
 
 /* Header */
 #wrapper-navbar {
-	transition: background-color .3s ease;
+	transition: $transition-base;
 }
 .scrolled {
 	#wrapper-navbar {
-		background-color: $white;
-		border-bottom: 1px solid $light;
+		background-color: $light;
 	}
 }
 

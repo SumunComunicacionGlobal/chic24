@@ -181,13 +181,6 @@
 		text-align: center;
 	}
 
-	.navbar,
-	.transparent-navbar {
-		transition: $transition-base;
-	}
-}
-body.cabecera-transparente.scrolled .transparent-navbar {
-	background-color: $light;
 }
 
 // @include media-breakpoint-up(md) {
