@@ -181,7 +181,9 @@
 		text-align: center;
 	}
 
-	.navbar {
+	&,
+	.navbar,
+	.transparent-navbar {
 		transition: $transition-base;
 	}
 }
