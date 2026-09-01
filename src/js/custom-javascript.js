@@ -38,7 +38,7 @@ jQuery(document).ready(function($) {
 
 	jQuery(window).scroll(function() {
 		var scroll = $(window).scrollTop();
-		if (scroll >= 25) {
+		if (scroll >= 80) {
 			body.addClass("scrolled");
 		} else {
 			body.removeClass("scrolled");
