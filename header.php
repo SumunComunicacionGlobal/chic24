@@ -11,6 +11,13 @@
 defined( 'ABSPATH' ) || exit;
 
 $container = get_theme_mod( 'understrap_container_type' );
+$navbar_class = 'navbar-light bg-secondary';
+if ( is_singular() ) {
+	$cabecera_transparente = get_field('cabecera_transparente');
+	if ($cabecera_transparente) {
+		$navbar_class = '';
+	}
+}
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -30,7 +37,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 		<a class="skip-link sr-only sr-only-focusable" href="#content"><?php esc_html_e( 'Skip to content', 'understrap' ); ?></a>
 
-		<nav class="navbar navbar-expand-md navbar-light bg-secondary fixed-top">
+		<nav class="navbar navbar-expand-md fixed-top <?php echo esc_attr( $navbar_class ); ?>">
 
 
 				<!-- Your site title as branding in the menu -->
