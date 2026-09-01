@@ -180,6 +180,10 @@
 	.nav-link {
 		text-align: center;
 	}
+
+	.navbar {
+		transition: $transition-base;
+	}
 }
 body.cabecera-transparente.scrolled .transparent-navbar {
 	background-color: $light;

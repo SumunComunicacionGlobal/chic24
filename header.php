@@ -11,10 +11,13 @@
 defined( 'ABSPATH' ) || exit;
 
 $container = get_theme_mod( 'understrap_container_type' );
+$navbar_wrapper_class = 'sticky-top';
 $navbar_class = 'navbar-light bg-secondary';
+
 if ( is_singular() ) {
 	$cabecera_transparente = get_field('cabecera_transparente');
 	if ($cabecera_transparente) {
+		$navbar_wrapper_class = 'fixed-top';
 		$navbar_class = 'navbar-light transparent-navbar';
 	}
 }
@@ -33,11 +36,11 @@ if ( is_singular() ) {
 <div class="site" id="page">
 
 	<!-- ******************* The Navbar Area ******************* -->
-	<div id="wrapper-navbar" itemscope itemtype="http://schema.org/WebSite">
+	<div id="wrapper-navbar" class="<?php echo esc_attr( $navbar_wrapper_class ); ?>" itemscope itemtype="http://schema.org/WebSite">
 
 		<a class="skip-link sr-only sr-only-focusable" href="#content"><?php esc_html_e( 'Skip to content', 'understrap' ); ?></a>
 
-		<nav class="navbar navbar-expand-md fixed-top <?php echo esc_attr( $navbar_class ); ?>">
+		<nav class="navbar navbar-expand-md <?php echo esc_attr( $navbar_class ); ?>">
 
 
 				<!-- Your site title as branding in the menu -->
