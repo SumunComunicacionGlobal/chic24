@@ -197,9 +197,10 @@
 		padding-top: 0 !important;
 
 		.wp-block-cover__image-background {
-			position: relative;
-			aspect-ratio: 1/1;
-			object-position: 82% 50% !important;
+			// position: relative;
+			// aspect-ratio: 1/1;
+			// object-position: 82% 50% !important;
+			display: none;
 		}
 	}
 }	
