@@ -803,3 +803,12 @@ figcaption {
 		}
 	}
 }
+
+/* Circles carousel */
+.curve-layout-v7 {
+
+	@include media-breakpoint-down(md) {
+		display: block !important;
+	}
+
+}
