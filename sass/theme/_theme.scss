@@ -1000,7 +1000,7 @@ figcaption {
 		}
 
 
-		@include media-breakpoint-down(md) {
+		@include media-breakpoint-down(sm) {
 			position: relative;
 			width: calc(100% + 4rem);
 			min-height: 0;
@@ -1069,7 +1069,7 @@ figcaption {
 			}
 		}
 
-		@include media-breakpoint-down(sm) {
+		@include media-breakpoint-down(xs) {
 
 			.curve-circle-main-v7 {
 				width: 250px;
