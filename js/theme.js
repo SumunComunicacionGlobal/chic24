@@ -7062,7 +7062,7 @@
 
 jQuery(document).ready(function ($) {
   var body = $('body');
-  $('#navbarNavDropdown').on('shown.bs.collapse', function () {
+  $('#navbarNavDropdown').on('show.bs.collapse', function () {
     body.addClass('menu-open');
   }).on('hidden.bs.collapse', function () {
     body.removeClass('menu-open');
