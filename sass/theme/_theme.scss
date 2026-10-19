@@ -189,10 +189,10 @@
 		transition: $transition-base;
 	}
 
-	&.menu-open .transparent-navbar {
-		background-color: $light;
-	}
+}
 
+body.menu-open .transparent-navbar {
+	background-color: $light;
 }
 
 @include media-breakpoint-down(sm) {
