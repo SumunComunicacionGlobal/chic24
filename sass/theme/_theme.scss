@@ -185,6 +185,14 @@
 		padding-top: 80px;
 	}
 
+	.navbar {
+		transition: $transition-base;
+	}
+
+	&.menu-open .transparent-navbar {
+		background-color: $light;
+	}
+
 }
 
 @include media-breakpoint-down(sm) {

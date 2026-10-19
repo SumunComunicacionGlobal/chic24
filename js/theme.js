@@ -7062,10 +7062,15 @@
 
 jQuery(document).ready(function ($) {
   var body = $('body');
+  $('#navbarNavDropdown').on('shown.bs.collapse', function () {
+    body.addClass('menu-open');
+  }).on('hidden.bs.collapse', function () {
+    body.removeClass('menu-open');
+  });
   jQuery(window).scroll(function () {
     var scroll = $(window).scrollTop();
 
-    if (scroll >= 25) {
+    if (scroll >= 80) {
       body.addClass("scrolled");
     } else {
       body.removeClass("scrolled");
