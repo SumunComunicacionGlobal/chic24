@@ -110,4 +110,41 @@ jQuery(document).ready(function($) {
 
 });
 
+/* Carruseles círculos */
+(function ($) {
+  function circlesCarouselInit() {
+    var $carousel = $('.circles-carousel');
+    if (!$carousel.length) return;
 
+    var isMobile = window.matchMedia('(max-width: 781px)').matches;
+
+    if (isMobile) {
+      if (!$carousel.hasClass('slick-initialized')) {
+        $carousel.slick({
+          centerMode: true,
+          centerPadding: '20px',
+          variableWidth: true,
+          slidesToShow: 1,
+          arrows: false,
+          dots: false,
+          infinite: true,
+          speed: 400,
+          autoplay: true,
+          autoplaySpeed: 2500,
+        });
+      }
+    } else {
+      if ($carousel.hasClass('slick-initialized')) {
+        $carousel.slick('unslick');
+      }
+    }
+  }
+
+  var circlesCarouselResizeTimer;
+  $(window).on('resize', function () {
+    clearTimeout(circlesCarouselResizeTimer);
+    circlesCarouselResizeTimer = setTimeout(circlesCarouselInit, 150);
+  });
+
+  $(document).ready(circlesCarouselInit);
+})(jQuery);
