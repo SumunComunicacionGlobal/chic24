@@ -805,10 +805,108 @@ figcaption {
 }
 
 /* Circles carousel */
-.curve-layout-v7 {
+#curve-block-left-v7 .curve-layout-v7 {
 
 	@include media-breakpoint-down(md) {
-		display: block !important;
+		position: relative;
+		width: calc(100% + 4rem);
+		min-height: 0;
+		margin: 0 -2rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.curve-circle-v7 {
+			position: static !important;
+			left: auto !important;
+			right: auto !important;
+			top: auto !important;
+			bottom: auto !important;
+			transform: none !important;
+		}
+
+		.curve-circle-main-v7 {
+			width: 260px;
+			height: 260px;
+			padding: 32px;
+			margin-bottom: 8px;
+		}
+
+		.curve-circle-small-v7 {
+			width: 150px;
+			height: 150px;
+			padding: 13px;
+			margin: 0 8px;
+		}
+
+		/* Antes del init de slick, el carrusel se ve como fila; slick lo reestructura */
+		#curve-block-left-v7 .circles-carousel {
+			display: block;
+			width: 100%;
+		}
+		/* Flechas de slick */
+		.slick-prev,
+		.slick-next {
+			z-index: 6;
+		}
+		.slick-slide {
+			outline: none;
+		}
+
+		.curve-circle-title-v7 {
+			font-size: 16px;
+			max-width: 122px;
+		}
+
+		.curve-circle-title-organizador-v7 {
+			font-size: 13px;
+		}
+
+		.curve-brand-v7 {
+			font-size: 40px;
+		}
+
+		.curve-collection-v7 {
+			font-size: 8px;
+			letter-spacing: 0.3em;
+		}
+
+		.curve-main-copy-v7 {
+			font-size: 14px;
+		}
+	}
+
+	@include media-breakpoint-down(sm) {
+
+		.curve-circle-main-v7 {
+			width: 250px;
+			height: 250px;
+			padding: 28px;
+		}
+		.curve-circle-small-v7 {
+			width: 146px;
+			height: 146px;
+			padding: 12px;
+			margin: 0 6px;
+		}
+		.curve-circle-title-v7 {
+			font-size: 15px;
+			max-width: 120px;
+		}
+		.curve-circle-title-organizador-v7 {
+			font-size: 12px;
+		}
+		.curve-brand-v7 {
+			font-size: 36px;
+		}
+		.curve-collection-v7 {
+			font-size: 7px;
+			letter-spacing: 0.28em;
+		}
+		.curve-main-copy-v7 {
+			font-size: 13px;
+		}
+
 	}
 
 }
