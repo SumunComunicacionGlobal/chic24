@@ -7141,11 +7141,11 @@ jQuery(document).ready(function ($) {
           centerPadding: '20px',
           variableWidth: true,
           slidesToShow: 1,
-          arrows: true,
+          arrows: false,
           dots: false,
           infinite: true,
           speed: 400,
-          autoplay: false,
+          autoplay: true,
           autoplaySpeed: 2500
         });
       }
@@ -7154,12 +7154,12 @@ jQuery(document).ready(function ($) {
         $carousel.slick('unslick');
       }
     }
-  }
+  } //   var circlesCarouselResizeTimer;
+  //   $(window).on('resize', function () {
+  //     clearTimeout(circlesCarouselResizeTimer);
+  //     circlesCarouselResizeTimer = setTimeout(circlesCarouselInit, 150);
+  //   });
 
-  var circlesCarouselResizeTimer;
-  $(window).on('resize', function () {
-    clearTimeout(circlesCarouselResizeTimer);
-    circlesCarouselResizeTimer = setTimeout(circlesCarouselInit, 150);
-  });
+
   $(document).ready(circlesCarouselInit);
 })(jQuery);
