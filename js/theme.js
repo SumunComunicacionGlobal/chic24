@@ -7141,12 +7141,11 @@ jQuery(document).ready(function ($) {
           centerPadding: '20px',
           variableWidth: true,
           slidesToShow: 1,
-          arrows: false,
+          arrows: true,
           dots: false,
           infinite: true,
-          touchThreshold: 100,
           speed: 400,
-          autoplay: true,
+          autoplay: false,
           autoplaySpeed: 2500
         });
       }
