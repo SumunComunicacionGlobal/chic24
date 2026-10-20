@@ -7154,12 +7154,12 @@ jQuery(document).ready(function ($) {
         $carousel.slick('unslick');
       }
     }
-  } //   var circlesCarouselResizeTimer;
-  //   $(window).on('resize', function () {
-  //     clearTimeout(circlesCarouselResizeTimer);
-  //     circlesCarouselResizeTimer = setTimeout(circlesCarouselInit, 150);
-  //   });
+  }
 
-
+  var circlesCarouselResizeTimer;
+  $(window).on('resize', function () {
+    clearTimeout(circlesCarouselResizeTimer);
+    circlesCarouselResizeTimer = setTimeout(circlesCarouselInit, 150);
+  });
   $(document).ready(circlesCarouselInit);
 })(jQuery);

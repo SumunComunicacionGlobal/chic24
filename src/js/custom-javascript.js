@@ -140,11 +140,11 @@ jQuery(document).ready(function($) {
     }
   }
 
-//   var circlesCarouselResizeTimer;
-//   $(window).on('resize', function () {
-//     clearTimeout(circlesCarouselResizeTimer);
-//     circlesCarouselResizeTimer = setTimeout(circlesCarouselInit, 150);
-//   });
+  var circlesCarouselResizeTimer;
+  $(window).on('resize', function () {
+    clearTimeout(circlesCarouselResizeTimer);
+    circlesCarouselResizeTimer = setTimeout(circlesCarouselInit, 150);
+  });
 
   $(document).ready(circlesCarouselInit);
 })(jQuery);
