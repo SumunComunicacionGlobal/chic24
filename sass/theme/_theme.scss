@@ -906,7 +906,7 @@ figcaption {
 		width: 100%;
 		max-width: 122px;
 		font-family: "Playfair Display", serif;
-		font-size: 18px;
+		font-size: 16px;
 		line-height: 0.92;
 		font-weight: 400;
 
@@ -1006,7 +1006,7 @@ figcaption {
 		.curve-layout-v7 {
 			position: relative;
 			width: calc(100% + 4rem);
-			min-height: 0;
+			min-height: 0 !important;
 			margin: 0 -2rem;
 			display: flex;
 			flex-direction: column;
