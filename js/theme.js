@@ -7144,7 +7144,8 @@ jQuery(document).ready(function ($) {
           arrows: false,
           dots: false,
           infinite: true,
-          touchThreshold: 10,
+          swipeToSlide: true,
+          touchThreshold: 25,
           speed: 400,
           autoplay: true,
           autoplaySpeed: 2500
